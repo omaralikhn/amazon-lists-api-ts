@@ -38,6 +38,20 @@ Set `origin` for another Amazon marketplace, such as `https://www.amazon.co.uk`.
 * `fetchListItems(listId)` returns **every item** with its completion status and current version.
 * `AmazonAlexaListsApiError` preserves the **source failure** - HTTP status, status text, final URL, and response body.
 
+## Local authentication proof
+
+Run the proof on a user-controlled Mac to create or refresh a local Amazon session, then read the Alexa `SHOP` list twice.
+
+```bash
+npm run proof:auth
+```
+
+On the first run, open the loopback URL printed as `OPEN_BROWSER`, then complete Amazon sign-in and any required challenge locally. The script persists the registered-device session at `~/.config/amazon-lists-api-ts/proof-session.json` under a mode-`0700` directory with mode `0600` on the file. Later runs refresh that state without browser sign-in when Amazon accepts the registration.
+
+Keep that file outside source control and logs. Delete it and revoke the **Amazon Lists Proof** device in Amazon when rotating or revoking access. The script reports list types only and never prints session data, list items, passwords, MFA codes, or TOTP seeds.
+
+Amazon can require CAPTCHA, device approval, or another MFA method at any time. The proof stops on those failures and does not retry automatically.
+
 ## Development
 
 ```bash

@@ -11,6 +11,9 @@ tags:
   - endpoint
   - fetch
   - cookies
+  - authentication
+  - session
+  - proof
 ---
 
 `src/client.ts` implements the read-only Amazon Alexa shopping-list transport for this repository.
@@ -48,6 +51,15 @@ tags:
 | Untrusted payload validation | `src/parser.ts` |
 | Public types and client options | `src/types.ts` |
 | Observable protocol and failure tests | `src/__tests__/client.test.ts` |
+| Local authentication proof | `scripts/prove-auth.ts` |
+
+## Local session proof
+
+* `npm run proof:auth` uses **`alexa-cookie2` device registration** to establish or refresh a local Amazon session without adding login behavior to the exported list client.
+* The first **interactive run** opens a loopback-only proxy, where the user completes Amazon sign-in and any challenge without exposing credentials to the script output.
+* A successful registration is saved at **`~/.config/amazon-lists-api-ts/proof-session.json`** in a mode-`0700` directory, with mode `0600` on the state file.
+* Later proof runs load the saved **registration state**, refresh it, and fetch the Alexa lists twice without a browser sign-in when Amazon accepts the registration.
+* The proof records **list types only** and does not print session data, list items, passwords, MFA codes, or TOTP seeds.
 
 ## Change guide
 
@@ -57,5 +69,6 @@ tags:
 
 ## Limits
 
-* This release has **no login flow, credential storage, CLI, or write operations**.
-* The **endpoint shapes** come from [`pyalexatodo`](https://github.com/lonlazer/pyalexatodo) and local contract tests, not a live Amazon-account check.
+* The exported library has **no login flow, credential storage, CLI, or write operations**.
+* The repository includes a **local proof script** that persists registered-device session state outside the repository, but it is not part of the published package output.
+* The **endpoint shapes** come from [`pyalexatodo`](https://github.com/lonlazer/pyalexatodo), local contract tests, and a live `amazon.com` proof that fetched `SHOP`, `TODO`, and `CUSTOM` list types on 2026-10-11.

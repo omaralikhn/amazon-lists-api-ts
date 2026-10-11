@@ -1,0 +1,20 @@
+{
+  "configVersion": "2.0",
+  "workspaces": [
+    {
+      "path": ".",
+      "prodEntryPoints": ["src/index.ts"],
+      "devEntryPoints": [
+        "scripts/**",
+        "**/*.test.*",
+        "**/*.bench.*",
+        "eslint.config.js",
+        "vite.config.ts",
+        "vitest.config.ts"
+      ],
+      "unusedExportsDetection": {
+        "enabled": true
+      }
+    }
+  ]
+}

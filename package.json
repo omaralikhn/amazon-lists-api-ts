@@ -1,0 +1,50 @@
+{
+  "name": "amazon-lists-api-ts",
+  "version": "0.1.0",
+  "description": "Unofficial TypeScript client for Amazon Alexa shopping, to-do, and custom lists.",
+  "private": true,
+  "type": "module",
+  "exports": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "prepare": "npm run build",
+    "dev": "tsx watch src/index.ts",
+    "start": "tsx src/index.ts",
+    "build": "npm run clean && tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . --cache && npm run rev-dep",
+    "lint:fix": "eslint . --cache --fix && npm run rev-dep -- --fix --recheck",
+    "fix": "npm run format && npm run lint:fix",
+    "format": "prettier --write 'src/**/*.ts' '*.json' '*.js'",
+    "format:check": "prettier --check 'src/**/*.ts' '*.json' '*.js'",
+    "knip": "knip",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest",
+    "check": "npm run format && node scripts/run-parallel.mjs lint build test:coverage",
+    "check:ci": "node scripts/run-parallel.mjs format:check lint build test:coverage && npm run knip",
+    "rev-dep": "rev-dep config run",
+    "clean": "rm -rf dist"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@stylistic/eslint-plugin": "^5.10.0",
+    "@types/node": "^26.1.2",
+    "@vitest/coverage-v8": "^4.1.10",
+    "eslint": "^10.8.0",
+    "eslint-plugin-unicorn": "^73.0.0",
+    "knip": "^6.31.0",
+    "prettier": "^3.9.6",
+    "tsx": "^4.23.8",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.66.0",
+    "vitest": "^4.1.10",
+    "eslint-plugin-oaklint": "file:eslint-plugin-oaklint-0.2.9.tgz",
+    "rev-dep": "^3.0.0"
+  }
+}
